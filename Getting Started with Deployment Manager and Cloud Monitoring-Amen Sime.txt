@@ -1,0 +1,85 @@
+#LAB: Google Cloud Fundamentals: Getting Started with Deployment Manager and Cloud Monitoring
+
+#Objectives
+#Create a Deployment Manager deployment.
+
+#Update a Deployment Manager deployment.
+
+#View the load on a VM instance using Cloud Monitoring
+
+
+##Task 1: Sign in to the Google Cloud Platform (GCP) Console
+
+##Task 2: Confirm that needed APIs are enabled
+
+#3.	Scroll down in the list of enabled APIs, and confirm that these APIs are enabled:
+
+# Cloud Deployment Manager v2 API, Cloud Runtime Configuration API, Cloud Monitoring API
+
+
+gcloud services list [--available     | --enabled] [--filter="Cloud Deployment Manager v2 Cloud Runtime Configuration, Cloud Monitoring] 
+
+##Task 3: Create a Deployment Manager deployment
+
+To place the zone that Qwiklabs assigned you to into an environment variable called MY_ZONE:
+
+export MY_ZONE=us-central1-a
+ 
+#At the Cloud Shell prompt, download an editable Deployment Manager template:
+gsutil cp gs://cloud-training/gcpfcoreinfra/mydeploy.yaml mydeploy.yaml
+
+#n the Cloud Shell, use the sed command to replace the PROJECT_ID placeholder string with your Google Cloud Platform project ID using this command:
+sed -i -e "s/PROJECT_ID/$DEVSHELL_PROJECT_ID/" mydeploy.yaml
+
+#n the Cloud Shell, use the sed command to replace the ZONE placeholder string with your Google Cloud Platform zone using this command:
+sed -i -e "s/ZONE/$MY_ZONE/" mydeploy.yaml
+
+#View the mydeploy.yaml file, with your modifications, with this command:
+cat mydeploy.yaml
+
+#Build a deployment from the template:
+
+gcloud deployment-manager deployments create my-first-depl --config mydeploy.yaml
+
+##Task 4: Update a Deployment Manager deployment
+
+# Launch the nano text editor to edit the mydeploy.yaml file:
+
+nano mydeploy.yaml
+
+#Find the line that sets the value of the startup script, value: "apt-get update", and edit it so that it looks like this:
+
+      value: "apt-get update; apt-get install nginx-light -y"
+	  
+	  
+	  
+#Enter this command to cause Deployment Manager to update your deployment to install the new startup script:
+
+gcloud deployment-manager deployments update my-first-depl --config mydeploy.yaml
+
+
+#Confirm that the deployment was successful. In the GCP Console, on the Navigation menu (Navigation menu), click Compute Engine > VM instances. 
+#You will see that a VM instance called my-vm has been created, as specified by the template.
+
+gcloud deployment-manager deployments describe my-first-depl
+
+##Task 5: View the Load on a VM using Cloud Monitoring
+
+#In the GCP Console, on the Navigation menu (Navigation menu), click Compute Engine > VM instances.
+
+#To open a command prompt on the my-vm instance, click SSH in its row in the VM instances list.
+
+#In the ssh session on my-vm, execute this command to create a CPU load:
+
+dd if=/dev/urandom | gzip -9 >> /dev/null &
+
+#Create a Monitoring workspace
+
+#In the ssh session on my-vm, execute this command to create a CPU load:
+
+dd if=/dev/urandom | gzip -9 >> /dev/null &
+
+#Terminate your workload generator. Return to your ssh session on my-vm and enter this command:
+
+kill %1
+

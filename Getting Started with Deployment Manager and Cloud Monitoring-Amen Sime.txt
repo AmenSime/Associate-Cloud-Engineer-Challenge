@@ -17,7 +17,7 @@
 # Cloud Deployment Manager v2 API, Cloud Runtime Configuration API, Cloud Monitoring API
 
 
-gcloud services list [--available     | --enabled] [--filter="Cloud Deployment Manager v2 Cloud Runtime Configuration, Cloud Monitoring] 
+gcloud services list [--available     | --enabled] [--filter= 'NAME:compute.v2.CloudDeploymentManager, compute.CloudRuntimeConfiguration, compute.CloudMonitoring'] 
 
 ##Task 3: Create a Deployment Manager deployment
 
